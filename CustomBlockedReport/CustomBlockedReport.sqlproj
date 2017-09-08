@@ -67,7 +67,6 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="PreDeploy" />
-    <Folder Include="TEST" />
     <Folder Include="Instance level operation" />
     <Folder Include="Instance level operation\Certifikates" />
     <Folder Include="SQLCLR" />
@@ -82,7 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="PreDeploy\DataBaseDefinition.sql" />
-    <None Include="TEST\Test.sql" />
     <None Include="Instance level operation\InstanceLevelOperation.sql" />
   </ItemGroup>
   <ItemGroup>
