@@ -45,5 +45,9 @@ GRANT
     ON SCHEMA::Person 
     TO userBlocked
 GO
+GRANT 
+    SELECT
+    ON SCHEMA:: HumanResources 
+    TO userBlocked
 
 
