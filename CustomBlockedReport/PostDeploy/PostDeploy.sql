@@ -1,4 +1,5 @@
-﻿/*
+﻿
+/*
 Post-Deployment Script Template							
 --------------------------------------------------------------------------------------
  This file contains SQL statements that will be appended to the build script.		
@@ -9,43 +10,45 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------Transfer to email schema
 --------------------------------------------------------------------------------------------------------------------------------------------------------
-IF EXISTS (SELECT
-		*
-	FROM sysobjects
-	WHERE id = OBJECT_ID(N'[BPR].[GetResourceNameFromPageClr]')
-	AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
-BEGIN
-DROP PROCEDURE [BPR].[GetResourceNameFromPageClr]
-END
-
+IF EXISTS
+(
+    SELECT *
+    FROM sysobjects
+    WHERE id = OBJECT_ID(N'[BPR].[GetResourceNameFromPageClr]')
+          AND OBJECTPROPERTY(id, N'IsProcedure') = 1
+)
+    BEGIN
+        DROP PROCEDURE [BPR].[GetResourceNameFromPageClr];
+END;
 ALTER SCHEMA BPR TRANSFER dbo.GetResourceNameFromPageClr;
 
 --Transfer function
-IF EXISTS (SELECT
-		*
-	FROM sysobjects
-	WHERE id = OBJECT_ID(N'[BPR].[GetResourceContentClr]')
+IF EXISTS
+(
+    SELECT *
+    FROM sysobjects
+    WHERE id = OBJECT_ID(N'[BPR].[GetResourceContentClr]')
 )
-BEGIN
-DROP FUNCTION [BPR].[GetResourceContentClr]
-END
-
+    BEGIN
+        DROP FUNCTION [BPR].[GetResourceContentClr];
+END;
 ALTER SCHEMA BPR TRANSFER dbo.GetResourceContentClr;
 
 
 
 --Transfer function
-IF EXISTS (SELECT
-		*
-	FROM sysobjects
-	WHERE id = OBJECT_ID(N'[BPR].[GetResourceNameClr]')
+IF EXISTS
+(
+    SELECT *
+    FROM sysobjects
+    WHERE id = OBJECT_ID(N'[BPR].[GetResourceNameClr]')
 )
-BEGIN
-DROP FUNCTION [BPR].[GetResourceNameClr]
-END
-
+    BEGIN
+        DROP FUNCTION [BPR].[GetResourceNameClr];
+END;
 ALTER SCHEMA BPR TRANSFER dbo.GetResourceNameClr;
 
