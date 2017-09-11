@@ -1,5 +1,4 @@
-﻿
-IF EXISTS
+﻿IF EXISTS
 (
     SELECT *
     FROM sys.objects
