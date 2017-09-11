@@ -980,6 +980,7 @@ GO
 
 
 --Drop if exists
+--Drop if exists
 IF EXISTS (SELECT
 		*
 	FROM sys.objects
@@ -988,6 +989,12 @@ IF EXISTS (SELECT
 DROP FUNCTION [Bpr].[GetResourceContent]
 GO
 
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
 
 -- =============================================
 -- Get resource content
@@ -1014,7 +1021,9 @@ SET @retValue = '';
 SET @blockingType = RTRIM(SUBSTRING(@waitResource, 1, CHARINDEX(':', @waitResource) - 1));
 SET @blockingKey = SUBSTRING(@waitResource, CHARINDEX(':', @waitResource) + 1, LEN(@waitResource) - CHARINDEX(':', @waitResource));
 SET @dbId = SUBSTRING(@blockingKey, 1, CHARINDEX(':', @blockingKey) - 1);
-
+    IF @blockingType != 'KEY' AND @blockingType != 'PAGE'
+	    RETURN @retValue
+ 
 	IF @paramName IS NOT NULL
 		BEGIN
 SET @retValue = 'SET ' + @paramName + ' = (';
@@ -1048,7 +1057,7 @@ SET @retValue = @retValue +
 		END
 		IF @paramName IS NOT NULL
 		BEGIN
-SET @retValue = @retValue + ')'
+		SET @retValue = @retValue + ')'
 		END
 	RETURN @retvalue;
 
