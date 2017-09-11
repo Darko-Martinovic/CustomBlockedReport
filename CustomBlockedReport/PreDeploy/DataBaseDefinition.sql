@@ -381,6 +381,7 @@ BEGIN
 		  ,'Display name'
 		  ,'BPR'
 		  ,'Display name'
+	   UNION ALL
 	   SELECT
 		   13
 		  ,'Use SQLCLR'
@@ -1811,14 +1812,14 @@ INSERT INTO [Bpr].[Bpr_BadMessage] ([BPR_INNER_BODY], [ERROR_MESSAGE])
 		@innerBody
 	   ,@errorMess;
 
-		SET @subject = @@SERVERNAME + '- Error in BlockProcess Notification. Customer name ' + @configCustomerName
-		;
-		SET @body = 'Error message : ' + CHAR(13) + CHAR(13) + '<b>' + @errorMess + '</b>'
-		EXEC [EMAIL].[CLRSendMail] @profileName = @configProfileName
-								  ,@mailTo = @configEmailAddress
-								  ,@mailSubject = @subject
-								  ,@mailBody = @body
-								  ,@displayName = @configDisplayName
+SET @subject = @@SERVERNAME + '- Error in BlockProcess Notification. Customer name ' + @configCustomerName
+ ;
+SET @body = 'Error message : ' + CHAR(13) + CHAR(10) + '<b>' + @errorMess + '</b>'
+EXEC [EMAIL].[CLRSendMail] @profileName = @configProfileName
+						  ,@mailTo = @configEmailAddress
+						  ,@mailSubject = @subject
+						  ,@mailBody = @body
+						  ,@displayName = @configDisplayName
 
 END
 END CATCH
@@ -1832,7 +1833,7 @@ GO
 ADD SIGNATURE TO OBJECT::[Bpr].[HandleBPR]
 BY CERTIFICATE [PBR] 
 WITH PASSWORD = '$tr0ngp@$$w0rd';
-		GO
+GO
 
 --Add custom action on queue 
 --In order to automatically process the queue, we are using activation.
