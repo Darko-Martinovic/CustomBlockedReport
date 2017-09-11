@@ -346,9 +346,70 @@ DROP FUNCTION [Bpr].[GetResourceContent]
 END
 GO
 
+--Drop if exists
+IF EXISTS (SELECT
+		*
+	FROM sys.objects
+	WHERE object_id = OBJECT_ID(N'[Bpr].[GetResourceContentCLR]')
+	AND type IN (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+DROP FUNCTION [Bpr].[GetResourceContentCLR]
+END
+GO
+
+--Drop if exists
+IF EXISTS (SELECT
+		*
+	FROM sys.objects
+	WHERE object_id = OBJECT_ID(N'[Bpr].[GetResourceNameCLR]')
+	AND type IN (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+DROP FUNCTION [Bpr].[GetResourceNameCLR]
+END
+GO
+--Drop stored procedure 
+IF EXISTS (SELECT
+		*
+	FROM sys.objects
+	WHERE object_id = OBJECT_ID(N'[BPR].[GetResourceNameFromPageClr]')
+	AND type = 'PC')
+BEGIN
+DROP PROCEDURE [BPR].[GetResourceNameFromPageClr]
+END
+
+IF EXISTS (SELECT
+		*
+	FROM sys.objects
+	WHERE object_id = OBJECT_ID(N'[BPR].[HandleBPR]')
+	AND type = 'P')
+BEGIN
+DROP PROCEDURE [BPR].[HandleBPR]
+END
+
+IF EXISTS (SELECT
+		*
+	FROM sys.objects
+	WHERE object_id = OBJECT_ID(N'[BPR].[ShowBlocking]')
+	AND type = 'P')
+BEGIN
+DROP PROCEDURE [BPR].[ShowBlocking]
+END
+
 IF EXISTS (SELECT
 		*
 	FROM sys.schemas
 	WHERE name = N'BPR')
-EXEC ('DROP SCHEMA [BPR] ');
+BEGIN
+	EXEC ('DROP SCHEMA [BPR] ');
+END
+GO
+
+
+IF EXISTS (SELECT
+		*
+	FROM sys.assemblies
+	WHERE name = N'SimpleTalk.SQLCLR.CustomBlockedReport')
+BEGIN
+	DROP ASSEMBLY [SimpleTalk.SQLCLR.CustomBlockedReport]
+END
 GO
