@@ -1,6 +1,6 @@
 # T-SQL & SQLCLR solution. Building Custom Blocked Process Report
 
-Practical solution which will tell you, almost immediately by sending an e-mail, when blocking occurs. 
+Practical solution which will tell you, almost immediately by sending an e-mail, when blocking occurs. The report could be customised by using the configuration table. The report content include information about the root blocker, application name, user first and last name, host name, isolation level, lock types and so on. 
 
 # The solution include 
 
