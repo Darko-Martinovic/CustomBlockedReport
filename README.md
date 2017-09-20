@@ -2,7 +2,7 @@
 
 Practical solution which will tell you, almost immediately by sending an e-mail, when blocking occurs. The report could be customised by using the configuration table. The report content include information about the root blocker, application name, user first and last name, host name, isolation level, lock types and so on. 
 
-# The solution include 
+## The solution include 
 
 - BPR.GetResourceName T-SQL scalar function which returns what is subject of blocking. Usually this means table or index name.
 - BPR.GetResourceContent T-SQL scalar function which returns the content of the blocked resource in form of XML document. 
