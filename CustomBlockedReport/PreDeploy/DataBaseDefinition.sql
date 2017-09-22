@@ -377,7 +377,7 @@ IF
                UNION ALL
                SELECT 8,
                       'Dedicated e-mail address',
-                      'darko.martinovic@outlook.com',
+                      '<your e-mail address>',
                       'Dedicated e-mail address'
                UNION ALL
                SELECT 9,
