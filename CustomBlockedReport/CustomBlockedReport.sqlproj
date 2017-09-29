@@ -32,6 +32,9 @@
     <SccLocalPath>
     </SccLocalPath>
     <ServiceBrokerOption>EnableBroker</ServiceBrokerOption>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>cbpr.snk</AssemblyOriginatorKeyFile>
+    <PermissionSet>SAFE</PermissionSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -86,6 +89,7 @@
   <ItemGroup>
     <None Include="Instance level operation\Certifikates\Signing.sql" />
     <None Include="Developing\Stored procedure\ShowBlocking.sql" />
+    <None Include="cbpr.snk" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Developing\Functions\GetLockInfo.sql" />
@@ -119,5 +123,11 @@
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeploy\PostDeploy.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="keyPath">
+      <DefaultValue>'D:\GitHub\Bpr\CustomBlockedReport\CustomBlockedReport\cbpr.snk'</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
   </ItemGroup>
 </Project>

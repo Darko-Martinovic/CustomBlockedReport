@@ -205,7 +205,7 @@ IF NOT EXISTS
     WHERE object_id = OBJECT_ID(N'[Bpr].[Bpr_Details]')
           AND type IN(N'U')
 )
-    BEGIN
+ BEGIN
         CREATE TABLE [Bpr].[Bpr_Details]
         ([ID]                      [BIGINT] IDENTITY(1, 1) NOT NULL,
          [HEADER_ID]               [BIGINT] NOT NULL,
@@ -2038,3 +2038,38 @@ AS
                   LEVEL;
      END;
          ADD SIGNATURE TO OBJECT::BPR.ShowBlocking BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
+
+---------------------UNCOMMENT this part if you are installing on SQL Server 2017
+--------------------CLR part required if you are installing on 2017 version 
+--USE MASTER
+--GO
+----Copy snk from VS solution to path visible for your sql server instance
+----Replace this path value, you password as you want
+--IF NOT EXISTS (SELECT * FROM sys.asymmetric_keys WHERE name = N'keyPBR')
+--BEGIN
+--	CREATE ASYMMETRIC KEY keyPBR
+--	FROM FILE = $(keyPath)
+--	ENCRYPTION BY PASSWORD = '@Str0ngP@$$w0rd'
+--END
+--GO
+
+----Use database where your installed the assembly
+--USE [$(DatabaseName)];
+--GO
+
+----Create login if not exists
+--IF NOT EXISTS (SELECT loginname
+--	FROM master.dbo.syslogins
+--	WHERE name = 'SqlClrPBRLogin')
+--BEGIN
+--	CREATE LOGIN SqlClrPBRLogin FROM ASYMMETRIC KEY keyPBR
+--END
+--GO
+
+--USE MASTER
+--GO
+----Grant rights to newly create login
+--GRANT UNSAFE ASSEMBLY TO SqlClrPBRLogin;
+
+--USE [$(DatabaseName)];
+--GO 
