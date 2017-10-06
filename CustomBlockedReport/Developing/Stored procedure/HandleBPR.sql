@@ -252,15 +252,10 @@ AS
                                       END, '@resourceContent'
                                      );
 							  --There is a problem with CLR types. FOR XML AUTO does not work with XML types. 
-							  BEGIN TRY
                                      EXEC sys.sp_executesql
                                           @sql,
                                           N'@resourceContent nvarchar(max) output',
                                           @resourceContent OUTPUT;
-						       END TRY
-							  BEGIN CATCH
-							  END CATCH
-
                              END;
                                  ELSE
                              IF @configUseSQLCLR = 1

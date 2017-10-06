@@ -1440,14 +1440,10 @@ AS
                                           ELSE @tableName
                                       END, '@resourceContent'
                                      );
-							  BEGIN TRY
                                      EXEC sys.sp_executesql
                                           @sql,
                                           N'@resourceContent nvarchar(max) output',
                                           @resourceContent OUTPUT;
-						       END TRY
-							  BEGIN CATCH
-							  END CATCH
                              END;
                                  ELSE
                              IF @configUseSQLCLR = 1
