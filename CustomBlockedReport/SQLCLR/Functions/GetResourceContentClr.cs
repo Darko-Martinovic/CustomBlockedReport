@@ -40,8 +40,11 @@ public partial class UserDefinedFunctions
                 string dbId = helper[1].Trim();
                 string query = @"SELECT DB_NAME(" + dbId + ");";
                 string dbName = DataAccess.GetResult(query);
-                query = "SELECT TOP 1 * FROM " + dbName + " ." + tableName + " (NOLOCK) " +
+                string errorMessage = string.Empty;
+                string columnList = BuildColumnList(tableName, ref errorMessage);
+                query = "SELECT TOP 1 " + columnList + " FROM " + dbName + " ." + tableName + " (NOLOCK) " +
                          " WHERE sys.fn_PhysLocFormatter(%%physloc%%) LIKE  '" + hobid + "' FOR XML AUTO";
+                
                 retValue = DataAccess.GetResult(query);
             }
             catch (Exception ex)
@@ -58,7 +61,7 @@ public partial class UserDefinedFunctions
 
     #region ProcessKey
 
-    private static string ProcessKey(string p, string name)
+    private static string ProcessKey(string p, string tableName)
     {
         //KEY: 21:72057594054049792 (b14200e25741)
         string[] helper = p.Split(':');
@@ -71,7 +74,9 @@ public partial class UserDefinedFunctions
                 string dbId = helper[1].Trim();
                 string query = @"SELECT DB_NAME(" + dbId + ");";
                 string dbName = DataAccess.GetResult(query);
-                query = "SELECT TOP 1 * FROM " + dbName + " ." + name + " ( NOLOCK) " +
+                string errorMessage = "";
+                string columnList = BuildColumnList(tableName, ref errorMessage);
+                query = "SELECT TOP 1 " + columnList + " FROM " + dbName + " ." + tableName + " ( NOLOCK) " +
                      " WHERE %%lockres%% = '" + hobid + "' FOR XML AUTO";
                 retValue = DataAccess.GetResult(query);
             }
@@ -83,6 +88,31 @@ public partial class UserDefinedFunctions
         else
             retValue = "I expected key value in form of : 'KEY: 21:72057594054049792 (b14200e25741)'";
         return retValue;
+    }
+    private static string BuildColumnList(string tableName,ref string errorMessage)
+    {
+        string columnList = "*";
+        string clrType = "240";
+        string query = @"DECLARE @columns NVARCHAR(max) = ''
+                        SELECT 
+                            @columns = @columns+RTRIM(c.name)+','
+                        FROM sys.columns c
+                        LEFT OUTER JOIN sys.tables t ON c.object_id = t.object_id
+                        LEFT OUTER JOIN SYS.schemas s ON s.schema_id = t.schema_id
+                        WHERE t.name = " + tableName.Split('.')[1] + 
+                            @" AND c.system_type_id != " + clrType + 
+                            @"AND s.name = " + tableName.Split('.')[0]  + 
+                        @"SELECT SUBSTRING(@columns, 1, LEN(@columns)-1);";
+        try
+        {
+            columnList = DataAccess.GetResult(query);
+        }
+        catch ( Exception ex)
+        {
+            columnList = "*";
+            errorMessage = ex.Message;
+        }
+        return columnList;
     }
 
     #endregion
