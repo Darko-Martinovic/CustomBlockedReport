@@ -42,7 +42,7 @@ public partial class UserDefinedFunctions
                 string dbName = DataAccess.GetResult(query);
                 string errorMessage = string.Empty;
                 string columnList = BuildColumnList(tableName, ref errorMessage);
-                query = "SELECT TOP 1 " + columnList + " FROM " + dbName + " ." + tableName + " (NOLOCK) " +
+                query = "SELECT TOP 1 " + columnList + " FROM " + dbName + "." + tableName + " (NOLOCK) " +
                          " WHERE sys.fn_PhysLocFormatter(%%physloc%%) LIKE  '" + hobid + "' FOR XML AUTO";
                 
                 retValue = DataAccess.GetResult(query);
@@ -76,7 +76,8 @@ public partial class UserDefinedFunctions
                 string dbName = DataAccess.GetResult(query);
                 string errorMessage = "";
                 string columnList = BuildColumnList(tableName, ref errorMessage);
-                query = "SELECT TOP 1 " + columnList + " FROM " + dbName + " ." + tableName + " ( NOLOCK) " +
+                //return BuildColumnList(tableName, ref errorMessage);
+                query = "SELECT TOP 1 " + columnList + " FROM " + dbName + "." + tableName + " ( NOLOCK) " +
                      " WHERE %%lockres%% = '" + hobid + "' FOR XML AUTO";
                 retValue = DataAccess.GetResult(query);
             }
@@ -99,9 +100,9 @@ public partial class UserDefinedFunctions
                         FROM sys.columns c
                         LEFT OUTER JOIN sys.tables t ON c.object_id = t.object_id
                         LEFT OUTER JOIN SYS.schemas s ON s.schema_id = t.schema_id
-                        WHERE t.name = " + tableName.Split('.')[1] + 
+                        WHERE t.name = '" + tableName.Split('.')[1] + "'" +
                             @" AND c.system_type_id != " + clrType + 
-                            @"AND s.name = " + tableName.Split('.')[0]  + 
+                            @"AND s.name = '" + tableName.Split('.')[0]  + "';" +
                         @"SELECT SUBSTRING(@columns, 1, LEN(@columns)-1);";
         try
         {
