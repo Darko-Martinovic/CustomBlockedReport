@@ -81,6 +81,7 @@
     <Folder Include="SQLCLR\Stored procedures" />
     <Folder Include="CleanUp" />
     <Folder Include="PostDeploy" />
+    <Folder Include="Test" />
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="PreDeploy\DataBaseDefinition.sql" />
@@ -90,6 +91,7 @@
     <None Include="Instance level operation\Certifikates\Signing.sql" />
     <None Include="Developing\Stored procedure\ShowBlocking.sql" />
     <None Include="cbpr.snk" />
+    <None Include="Test\Test.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Developing\Functions\GetLockInfo.sql" />
