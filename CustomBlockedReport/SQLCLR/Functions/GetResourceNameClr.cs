@@ -150,7 +150,7 @@ public partial class UserDefinedFunctions
     public const string KEY = "KEY";
     public const string PAGE = "PAGE";
     public const string OBJECT = "OBJECT";
-
+    public const string CLR_TYPE = "240";
     #endregion
 
 }

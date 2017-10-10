@@ -90,10 +90,18 @@ public partial class UserDefinedFunctions
             retValue = "I expected key value in form of : 'KEY: 21:72057594054049792 (b14200e25741)'";
         return retValue;
     }
+
+
+    /// <summary>
+    /// Returns comma separated list of columns
+    /// </summary>
+    /// <param name="tableName">Table name in form [schema_name].[table_name]</param>
+    /// <param name="errorMessage">Error message</param>
+    /// <returns>Comma separated list of columns. Columns that have CLR TYPES hierarchyid,geometry and geography are skiped</returns>
     private static string BuildColumnList(string tableName,ref string errorMessage)
     {
         string columnList = "*";
-        string clrType = "240";
+
         string query = @"DECLARE @columns NVARCHAR(max) = ''
                         SELECT 
                             @columns = @columns+RTRIM(c.name)+','
@@ -101,7 +109,7 @@ public partial class UserDefinedFunctions
                         LEFT OUTER JOIN sys.tables t ON c.object_id = t.object_id
                         LEFT OUTER JOIN SYS.schemas s ON s.schema_id = t.schema_id
                         WHERE t.name = '" + tableName.Split('.')[1] + "'" +
-                            @" AND c.system_type_id != " + clrType + 
+                            @" AND c.system_type_id != " + CLR_TYPE + 
                             @"AND s.name = '" + tableName.Split('.')[0]  + "';" +
                         @"SELECT SUBSTRING(@columns, 1, LEN(@columns)-1);";
         try
