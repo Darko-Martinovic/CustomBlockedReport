@@ -1202,6 +1202,9 @@ WHERE p.OBJECT_ID = @objectId ';
          RETURN @retvalue;
      END;
 GO
+
+
+/****** Object:  StoredProcedure [Bpr].[HandleBPR]    Script Date: 01/27/2017 09:32:25 ******/
 IF EXISTS
 (
     SELECT *
@@ -1213,7 +1216,7 @@ IF EXISTS
 GO
 
 
-/****** Object:  StoredProcedure [Bpr].[HandleBPR]    Script Date: 01/27/2017 09:32:25 ******/
+
 
 SET ANSI_NULLS ON;
 GO
@@ -1454,6 +1457,7 @@ AS
                                           ELSE @tableName
                                       END, '@resourceContent'
                                      );
+							  --There is a problem with CLR types. FOR XML AUTO does not work with XML types. 
                                      EXEC sys.sp_executesql
                                           @sql,
                                           N'@resourceContent nvarchar(max) output',
@@ -1817,12 +1821,20 @@ AS
                                      END;
                                      SET @T2 = GETDATE();
                                      SET @subject = @@SERVERNAME+'- BlockProcess Notification. Customer name '+@configCustomerName+'. More info querying for id : '+CAST(@addedId AS NVARCHAR(10))+'. Events occures : '+CAST((@addedCounter + 1) AS NVARCHAR(10))+'; Processed in : '+CAST(DATEDIFF(MILLISECOND, @t1, @t2) AS NVARCHAR(10))+' miliseconds';
-                                     EXEC [EMAIL].[CLRSendMail]
-                                          @profileName = @configProfileName,
-                                          @mailTo = @configEmailAddress,
-                                          @mailSubject = @subject,
-                                          @mailBody = @body,
-                                          @displayName = @configDisplayName;
+
+                                     --EXEC [EMAIL].[CLRSendMail]
+                                     --     @profileName = @configProfileName,
+                                     --     @mailTo = @configEmailAddress,
+                                     --     @mailSubject = @subject,
+                                     --     @mailBody = @body,
+                                     --     @displayName = @configDisplayName;
+							 EXEC msdb.dbo.sp_send_dbmail 
+								 @profile_name=@configProfileName,
+								 @recipients = @configEmailAddress,
+								 @body = @body,
+								 @subject= @subject,
+								 @body_format = 'HTML'
+
                              END;
                      END;
                          ELSE
@@ -1833,12 +1845,18 @@ AS
                                      SET @T2 = GETDATE();
                                      SET @subject = @@SERVERNAME+'- BlockProcess Notification. Customer name '+@configCustomerName+'. More info querying for id : '+CAST(@addedId AS NVARCHAR(10))+'. Events occures : '+CAST(@addedCounter AS NVARCHAR(10))+'; Processed in : '+CAST(DATEDIFF(MILLISECOND, @t1, @t2) AS NVARCHAR(10))+' miliseconds';
                                      SET @body = '<b>'+@tableName+'</b><br><b>Waiting '+CAST(@waitSec AS NVARCHAR(10))+' (sec)</b>'+CHAR(10)+'<br><b> Blocking spid : </b>'+CAST(ISNULL(@blockingSpid, 0) AS NVARCHAR(10))+CHAR(10)+'<br><b> Blocked spid : </b>'+CAST(ISNULL(@blockedSpid, 0) AS NVARCHAR(10));
-                                     EXEC [EMAIL].[CLRSendMail]
-                                          @profileName = @configProfileName,
-                                          @mailTo = @configEmailAddress,
-                                          @mailSubject = @subject,
-                                          @mailBody = @body,
-                                          @displayName = @configDisplayName;
+                                     --EXEC [EMAIL].[CLRSendMail]
+                                     --     @profileName = @configProfileName,
+                                     --     @mailTo = @configEmailAddress,
+                                     --     @mailSubject = @subject,
+                                     --     @mailBody = @body,
+                                     --     @displayName = @configDisplayName;
+							 EXEC msdb.dbo.sp_send_dbmail @profile_name = @configProfileName
+														  ,@recipients = @configEmailAddress
+														  ,@body = @body
+														  ,@subject = @subject
+														  ,@body_format = 'HTML'
+
                              END;
                      END;
                  END TRY
@@ -1856,12 +1874,18 @@ AS
                                        @errorMess;
                          SET @subject = @@SERVERNAME+'- Error in BlockProcess Notification. Customer name '+@configCustomerName;
                          SET @body = 'Error message : '+CHAR(13)+CHAR(10)+'<b>'+@errorMess+'</b>';
-                         EXEC [EMAIL].[CLRSendMail]
-                              @profileName = @configProfileName,
-                              @mailTo = @configEmailAddress,
-                              @mailSubject = @subject,
-                              @mailBody = @body,
-                              @displayName = @configDisplayName;
+                         --EXEC [EMAIL].[CLRSendMail]
+                         --     @profileName = @configProfileName,
+                         --     @mailTo = @configEmailAddress,
+                         --     @mailSubject = @subject,
+                         --     @mailBody = @body,
+                         --     @displayName = @configDisplayName;
+				    EXEC msdb.dbo.sp_send_dbmail @profile_name = @configProfileName
+												,@recipients = @configEmailAddress
+												,@body = @body
+												,@subject = @subject
+												,@body_format = 'HTML'
+
                      END;
                  END CATCH;
                  COMMIT TRANSACTION;
@@ -1877,6 +1901,8 @@ GO
 --The activation procedure is a standard stored procedure that works off the queue instead 
 --of tables in the database. 
 ALTER QUEUE BPRQueue WITH ACTIVATION(STATUS = ON, PROCEDURE_NAME = [BPR].[HandleBPR], MAX_QUEUE_READERS = 1, EXECUTE AS OWNER);
+
+
 
 ---------------------------------------------
 ---Create ShowBlocking 
