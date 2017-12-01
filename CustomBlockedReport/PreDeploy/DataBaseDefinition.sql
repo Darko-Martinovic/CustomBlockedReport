@@ -1822,18 +1822,18 @@ AS
                                      SET @T2 = GETDATE();
                                      SET @subject = @@SERVERNAME+'- BlockProcess Notification. Customer name '+@configCustomerName+'. More info querying for id : '+CAST(@addedId AS NVARCHAR(10))+'. Events occures : '+CAST((@addedCounter + 1) AS NVARCHAR(10))+'; Processed in : '+CAST(DATEDIFF(MILLISECOND, @t1, @t2) AS NVARCHAR(10))+' miliseconds';
 
-                                     --EXEC [EMAIL].[CLRSendMail]
-                                     --     @profileName = @configProfileName,
-                                     --     @mailTo = @configEmailAddress,
-                                     --     @mailSubject = @subject,
-                                     --     @mailBody = @body,
-                                     --     @displayName = @configDisplayName;
-							 EXEC msdb.dbo.sp_send_dbmail 
-								 @profile_name=@configProfileName,
-								 @recipients = @configEmailAddress,
-								 @body = @body,
-								 @subject= @subject,
-								 @body_format = 'HTML'
+                                     EXEC [EMAIL].[CLRSendMail]
+                                          @profileName = @configProfileName,
+                                          @mailTo = @configEmailAddress,
+                                          @mailSubject = @subject,
+                                          @mailBody = @body,
+                                          @displayName = @configDisplayName;
+							 --EXEC msdb.dbo.sp_send_dbmail 
+								-- @profile_name=@configProfileName,
+								-- @recipients = @configEmailAddress,
+								-- @body = @body,
+								-- @subject= @subject,
+								-- @body_format = 'HTML'
 
                              END;
                      END;
@@ -1845,17 +1845,17 @@ AS
                                      SET @T2 = GETDATE();
                                      SET @subject = @@SERVERNAME+'- BlockProcess Notification. Customer name '+@configCustomerName+'. More info querying for id : '+CAST(@addedId AS NVARCHAR(10))+'. Events occures : '+CAST(@addedCounter AS NVARCHAR(10))+'; Processed in : '+CAST(DATEDIFF(MILLISECOND, @t1, @t2) AS NVARCHAR(10))+' miliseconds';
                                      SET @body = '<b>'+@tableName+'</b><br><b>Waiting '+CAST(@waitSec AS NVARCHAR(10))+' (sec)</b>'+CHAR(10)+'<br><b> Blocking spid : </b>'+CAST(ISNULL(@blockingSpid, 0) AS NVARCHAR(10))+CHAR(10)+'<br><b> Blocked spid : </b>'+CAST(ISNULL(@blockedSpid, 0) AS NVARCHAR(10));
-                                     --EXEC [EMAIL].[CLRSendMail]
-                                     --     @profileName = @configProfileName,
-                                     --     @mailTo = @configEmailAddress,
-                                     --     @mailSubject = @subject,
-                                     --     @mailBody = @body,
-                                     --     @displayName = @configDisplayName;
-							 EXEC msdb.dbo.sp_send_dbmail @profile_name = @configProfileName
-														  ,@recipients = @configEmailAddress
-														  ,@body = @body
-														  ,@subject = @subject
-														  ,@body_format = 'HTML'
+                                     EXEC [EMAIL].[CLRSendMail]
+                                          @profileName = @configProfileName,
+                                          @mailTo = @configEmailAddress,
+                                          @mailSubject = @subject,
+                                          @mailBody = @body,
+                                          @displayName = @configDisplayName;
+							 --EXEC msdb.dbo.sp_send_dbmail @profile_name = @configProfileName
+								--						  ,@recipients = @configEmailAddress
+								--						  ,@body = @body
+								--						  ,@subject = @subject
+								--						  ,@body_format = 'HTML'
 
                              END;
                      END;
@@ -1874,17 +1874,17 @@ AS
                                        @errorMess;
                          SET @subject = @@SERVERNAME+'- Error in BlockProcess Notification. Customer name '+@configCustomerName;
                          SET @body = 'Error message : '+CHAR(13)+CHAR(10)+'<b>'+@errorMess+'</b>';
-                         --EXEC [EMAIL].[CLRSendMail]
-                         --     @profileName = @configProfileName,
-                         --     @mailTo = @configEmailAddress,
-                         --     @mailSubject = @subject,
-                         --     @mailBody = @body,
-                         --     @displayName = @configDisplayName;
-				    EXEC msdb.dbo.sp_send_dbmail @profile_name = @configProfileName
-												,@recipients = @configEmailAddress
-												,@body = @body
-												,@subject = @subject
-												,@body_format = 'HTML'
+                         EXEC [EMAIL].[CLRSendMail]
+                              @profileName = @configProfileName,
+                              @mailTo = @configEmailAddress,
+                              @mailSubject = @subject,
+                              @mailBody = @body,
+                              @displayName = @configDisplayName;
+				    --EXEC msdb.dbo.sp_send_dbmail @profile_name = @configProfileName
+								--				,@recipients = @configEmailAddress
+								--				,@body = @body
+								--				,@subject = @subject
+								--				,@body_format = 'HTML'
 
                      END;
                  END CATCH;
