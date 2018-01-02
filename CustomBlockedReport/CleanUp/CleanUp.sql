@@ -186,7 +186,7 @@ IF EXISTS
           AND name = N'IX_Brp_LockInfoBlocked'
 )
     BEGIN
-        DROP INDEX [IX_Brp_LockInfoBlocking] ON [Bpr].[Bpr_LockInfoBlocked];
+        DROP INDEX [IX_Brp_LockInfoBlocked] ON [Bpr].[Bpr_LockInfoBlocked];
 END;
 GO
 
