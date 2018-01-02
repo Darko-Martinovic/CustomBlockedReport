@@ -31,12 +31,13 @@
     </SccAuxPath>
     <SccLocalPath>
     </SccLocalPath>
-    <ServiceBrokerOption>EnableBroker</ServiceBrokerOption>
+    <ServiceBrokerOption>DisableBroker</ServiceBrokerOption>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>cbpr.snk</AssemblyOriginatorKeyFile>
     <PermissionSet>SAFE</PermissionSet>
     <PageVerify>CHECKSUM</PageVerify>
     <EnableFullTextSearch>False</EnableFullTextSearch>
+    <Recovery>SIMPLE</Recovery>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
