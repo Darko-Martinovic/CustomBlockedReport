@@ -35,6 +35,8 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>cbpr.snk</AssemblyOriginatorKeyFile>
     <PermissionSet>SAFE</PermissionSet>
+    <PageVerify>CHECKSUM</PageVerify>
+    <EnableFullTextSearch>False</EnableFullTextSearch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
