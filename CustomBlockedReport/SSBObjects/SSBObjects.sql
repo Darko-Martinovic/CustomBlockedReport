@@ -7,6 +7,49 @@ USE AdventureWorks2014
 GO
 ---!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+IF EXISTS
+(
+    SELECT *
+    FROM sys.server_event_notifications
+    WHERE name = 'BPRNotification'
+)
+    BEGIN
+        DROP EVENT NOTIFICATION BPRNotification ON SERVER;
+END;
+GO
+
+--2. Drop route if exists
+IF EXISTS
+(
+    SELECT *
+    FROM sys.routes
+    WHERE name = 'BPRRoute'
+)
+    BEGIN
+        DROP ROUTE BPRRoute;
+END;
+GO
+--3. Drop service if exists
+IF EXISTS
+(
+    SELECT *
+    FROM sys.services
+    WHERE name = 'BPRService'
+)
+    BEGIN
+        DROP SERVICE BPRService;
+END;
+GO
+--4. Drop queue
+IF EXISTS
+(
+    SELECT *
+    FROM sys.service_queues
+    WHERE name = 'BPRQueue'
+)
+    BEGIN
+        DROP QUEUE BPRQueue;
+END;
 
 --Create queue
 --which is a storage area for the data that gets received from the event notification servise. 
