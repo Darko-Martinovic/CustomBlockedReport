@@ -814,7 +814,7 @@ AS
          RETURN;
      END;
 GO
-ADD SIGNATURE TO OBJECT::[Bpr].[GetLockInfo] BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
+--ADD SIGNATURE TO OBJECT::[Bpr].[GetLockInfo] BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
 GO
 IF EXISTS
 (
@@ -973,7 +973,7 @@ AS
          RETURN;
      END;
 GO
-ADD SIGNATURE TO OBJECT::[Bpr].[GetWaitInfo] BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
+--ADD SIGNATURE TO OBJECT::[Bpr].[GetWaitInfo] BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
 GO 
 
 
@@ -1892,7 +1892,7 @@ AS
              END;
      END;
 GO
-ADD SIGNATURE TO OBJECT::[Bpr].[HandleBPR] BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
+--ADD SIGNATURE TO OBJECT::[Bpr].[HandleBPR] BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
 GO
 
 --Add custom action on queue 
@@ -2077,7 +2077,7 @@ AS
          ORDER BY [BlockNo],
                   LEVEL;
      END;
-         ADD SIGNATURE TO OBJECT::BPR.ShowBlocking BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
+--         ADD SIGNATURE TO OBJECT::BPR.ShowBlocking BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
 
 ---------------------UNCOMMENT this part if you are installing on SQL Server 2017
 --------------------CLR part required if you are installing on 2017 version 
