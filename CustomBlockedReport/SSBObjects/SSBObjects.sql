@@ -1,7 +1,10 @@
 ﻿---! ENABLE BROKER 
 USE MASTER
-
+GO
 ALTER DATABASE AdventureWorks2014 SET NEW_BROKER;
+GO
+USE AdventureWorks2014
+GO
 ---!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
