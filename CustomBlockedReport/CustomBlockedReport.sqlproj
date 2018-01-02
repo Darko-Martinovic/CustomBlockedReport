@@ -84,6 +84,7 @@
     <Folder Include="CleanUp" />
     <Folder Include="PostDeploy" />
     <Folder Include="Test" />
+    <Folder Include="SSBObjects" />
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="PreDeploy\DataBaseDefinition.sql" />
@@ -94,6 +95,7 @@
     <None Include="Developing\Stored procedure\ShowBlocking.sql" />
     <None Include="cbpr.snk" />
     <None Include="Test\Test.sql" />
+    <None Include="SSBObjects\SSBObjects.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Developing\Functions\GetLockInfo.sql" />
