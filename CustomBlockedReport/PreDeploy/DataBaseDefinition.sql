@@ -1834,7 +1834,6 @@ GO
 --Activation requires an activation stored procedure that is executed when new messages are added to the queue. 
 --The activation procedure is a standard stored procedure that works off the queue instead 
 --of tables in the database. 
-ALTER QUEUE BPRQueue WITH ACTIVATION(STATUS = ON, PROCEDURE_NAME = [BPR].[HandleBPR], MAX_QUEUE_READERS = 1, EXECUTE AS OWNER);
 
 
 
