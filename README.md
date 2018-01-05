@@ -1,5 +1,4 @@
-# Many thanks to Kathi Kellenberger 
-for her valuable comments and suggestions which have improved the article.
+Many thanks to Kathi Kellenberger for her valuable comments and suggestions which have improved the article.
 
 # T-SQL & SQLCLR solution. Building Custom Blocked Process Report
 
