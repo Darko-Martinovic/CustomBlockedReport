@@ -1,4 +1,5 @@
-Many thanks to Kathi Kellenberger for her valuable comments and suggestions which have improved the article.
+Many thanks to Kathi Kellenberger for her valuable comments and suggestions which have improved the article
+'Building a Custom Blocked Process Report' https://www.red-gate.com/simple-talk/sql/database-administration/building-custom-blocked-process-report/ 
 
 # T-SQL & SQLCLR solution. Building Custom Blocked Process Report
 
