@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CustomBlockedReport", "CustomBlockedReport\CustomBlockedReport.sqlproj", "{3A7D0A5F-DAAD-4BD5-B124-5F8B0B72998F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockedSession", "BlockedSession\BlockedSession\BlockedSession.csproj", "{94C371CE-3CA6-4D42-8CFD-E3E2D17CD664}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockingSession", "BlockingSession\BlockingSession.csproj", "{CDF2E536-2583-409E-B21C-B46824D51FB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +21,14 @@ Global
 		{3A7D0A5F-DAAD-4BD5-B124-5F8B0B72998F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A7D0A5F-DAAD-4BD5-B124-5F8B0B72998F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3A7D0A5F-DAAD-4BD5-B124-5F8B0B72998F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{94C371CE-3CA6-4D42-8CFD-E3E2D17CD664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94C371CE-3CA6-4D42-8CFD-E3E2D17CD664}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94C371CE-3CA6-4D42-8CFD-E3E2D17CD664}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94C371CE-3CA6-4D42-8CFD-E3E2D17CD664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF2E536-2583-409E-B21C-B46824D51FB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF2E536-2583-409E-B21C-B46824D51FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF2E536-2583-409E-B21C-B46824D51FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF2E536-2583-409E-B21C-B46824D51FB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
