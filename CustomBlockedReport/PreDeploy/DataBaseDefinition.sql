@@ -1,69 +1,3 @@
----! ENABLE BROKER 
----!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
---Create queue
---which is a storage area for the data that gets received from the event notification servise. 
---And queues are implemented as internal tables inside of SQL Server and have a specific way that you would access 
---them to be able to process the messages for each of the services.
---We can view user defined queues by quering system view, as shoed bellow. 
---SELECT
---	*
---FROM sys.service_queues
---WHERE is_ms_shipped = 0;
-IF NOT EXISTS
-(
-    SELECT *
-    FROM sys.service_queues
-    WHERE name = 'BPRQueue'
-)
-    BEGIN
-        CREATE QUEUE BPRQueue;
-END;
-
---Create servis--
---which are used to receive messages from the event notification servise
---by using contract [http://schemas.microsoft.com/SQL/Notifications/PostEventNotification]
---We can view contract by quering system view
---SELECT *
---FROM sys.service_contracts
-IF NOT EXISTS
-(
-    SELECT *
-    FROM sys.services
-    WHERE name = 'BPRService'
-)
-    BEGIN
-        CREATE SERVICE BPRService ON QUEUE BPRQueue([http://schemas.microsoft.com/SQL/Notifications/PostEventNotification]);
-END;
-
---Create route 
---When a route specifies 'LOCAL' for the next_hop_address, the message is delivered to a service within the current instance of SQL Server
-IF NOT EXISTS
-(
-    SELECT *
-    FROM sys.routes
-    WHERE name = 'BPRRoute'
-)
-    BEGIN
---Create route
-        CREATE ROUTE BPRRoute
-        WITH SERVICE_NAME = 'BPRService',
-             ADDRESS = 'LOCAL';
-END;
- 
- 
---Create event notification
-IF NOT EXISTS
-(
-    SELECT *
-    FROM sys.server_event_notifications
-    WHERE name = 'BPRNotification'
-)
-    BEGIN
-        CREATE EVENT NOTIFICATION BPRNotification ON SERVER WITH FAN_IN FOR BLOCKED_PROCESS_REPORT TO SERVICE 'BPRService', 'current database';
-END; 
-
 
 --
 --------!!!Create schema if not exists
@@ -814,7 +748,7 @@ AS
          RETURN;
      END;
 GO
-ADD SIGNATURE TO OBJECT::[Bpr].[GetLockInfo] BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
+--ADD SIGNATURE TO OBJECT::[Bpr].[GetLockInfo] BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
 GO
 IF EXISTS
 (
@@ -973,7 +907,7 @@ AS
          RETURN;
      END;
 GO
-ADD SIGNATURE TO OBJECT::[Bpr].[GetWaitInfo] BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
+--ADD SIGNATURE TO OBJECT::[Bpr].[GetWaitInfo] BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
 GO 
 
 
@@ -1892,7 +1826,7 @@ AS
              END;
      END;
 GO
-ADD SIGNATURE TO OBJECT::[Bpr].[HandleBPR] BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
+--ADD SIGNATURE TO OBJECT::[Bpr].[HandleBPR] BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
 GO
 
 --Add custom action on queue 
@@ -1900,7 +1834,6 @@ GO
 --Activation requires an activation stored procedure that is executed when new messages are added to the queue. 
 --The activation procedure is a standard stored procedure that works off the queue instead 
 --of tables in the database. 
-ALTER QUEUE BPRQueue WITH ACTIVATION(STATUS = ON, PROCEDURE_NAME = [BPR].[HandleBPR], MAX_QUEUE_READERS = 1, EXECUTE AS OWNER);
 
 
 
@@ -2077,7 +2010,7 @@ AS
          ORDER BY [BlockNo],
                   LEVEL;
      END;
-         ADD SIGNATURE TO OBJECT::BPR.ShowBlocking BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
+--         ADD SIGNATURE TO OBJECT::BPR.ShowBlocking BY CERTIFICATE [PBR] WITH PASSWORD = '$tr0ngp@$$w0rd';
 
 ---------------------UNCOMMENT this part if you are installing on SQL Server 2017
 --------------------CLR part required if you are installing on 2017 version 
